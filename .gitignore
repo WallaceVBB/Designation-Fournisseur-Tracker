@@ -1,0 +1,16 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# VS Code
+.vscode/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# General caches
+.cache/

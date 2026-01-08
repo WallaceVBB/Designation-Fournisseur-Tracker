@@ -1,6 +1,8 @@
 from playwright.sync_api import sync_playwright
 from scrapers.sysco import SyscoScraper
 from scrapers.pomona_episaveurs import PomonaEpisaveursScraper
+#from scrapers.pomona_terreazur import PomonaTerreAzurScraper
+#from scrapers.pomona_passionfroid import PomonaPassionFroidScraper
 
 def main():
     with sync_playwright() as p:
@@ -21,9 +23,6 @@ def main():
             timezone_id="Europe/Paris"
         )
 
-        # 1 page = 1 fournisseur
-        #page = browser.new_page()
-
         page = context.new_page()
 
         # Changez variable "Fournisseur" pour tester différents scrapers
@@ -32,12 +31,22 @@ def main():
         if Fournisseur == "Sysco": # OK
             scraper = SyscoScraper(page)
             scraper.run()
-            scraper.save_to_csv("donnees_sysco.csv")
+            scraper.save_to_csv("donnees_fournisseurs/donnees_sysco.csv")
 
-        if Fournisseur == "Pomona Episaveurs": # AF
+        if Fournisseur == "Pomona Episaveurs":
             scraper = PomonaEpisaveursScraper(page)
             scraper.run()
-            scraper.save_to_csv("donnees_pomona_episaveurs.csv")
+            scraper.save_to_csv("donnees_fournisseurs/donnees_pomona_episaveurs.csv")
+
+        if Fournisseur == "Pomona TerreAzur":
+            scraper = PomonaTerreAzurScraper(page)
+            scraper.run()
+            scraper.save_to_csv("donnees_fournisseurs/donnees_pomona_terreazur.csv")
+
+        if Fournisseur == "Pomona PassionFroid":
+            scraper = PomonaPassionFroidScraper(page)
+            scraper.run()
+            scraper.save_to_csv("donnees_fournisseurs/donnees_pomona_passionfroid.csv")
 
         browser.close()
 

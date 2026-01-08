@@ -17,7 +17,7 @@ class SyscoScraper(BaseScraper):
             
             print(f"\n📄 Page {page_num}")
             
-            self.page.wait_for_selector("div.product-row", timeout=5000)
+            self.page.wait_for_selector("div.product-row", timeout=10000)
 
             products = self.page.locator("div.product-row").all()
 
@@ -67,7 +67,7 @@ class SyscoScraper(BaseScraper):
         """Aller à la page suivante avec le bouton '>'."""
         try:
             # Attendre un court instant pour s'assurer que les éléments sont chargés
-            self.page.wait_for_timeout(500)
+            self.page.wait_for_timeout(10000)
 
             # Sélectionne le bouton 'next' (icône flèche droite)
             next_btn = self.page.locator("i.fa-angle-right").first

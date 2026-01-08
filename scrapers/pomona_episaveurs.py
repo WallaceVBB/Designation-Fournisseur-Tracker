@@ -1,37 +1,39 @@
-#AF 2 : Ajouter produits/boissons
-
 import re
 import time
 from .base import BaseScraper
 
 class PomonaEpisaveursScraper(BaseScraper):
 
-    BASE_URL = "https://www.episaveurs.fr/produits/epicerie" # AF : ajouter "/boissons"
+    sections = ("boissons", "epicerie")
 
     def run(self):
         print("🚚 Scraping Pomona Episaveurs...")
-        self.page.goto(self.BASE_URL)
         
-        self.accept_cookies()
-        page_num = 1
+        for section in self.sections:
+            print (f"\n🔍 Section: {section}")
+            BASE_URL = f"https://www.episaveurs.fr/produits/{section}"
+            self.page.goto(BASE_URL)
 
-        while True:
-            
-            print(f"\n📄 Page {page_num}")
-                        
-            self.page.wait_for_selector("div.ms-product--info-wrapper", timeout=5000) #AF : tester
+            self.accept_cookies()
+            page_num = 1
 
-            products = self.page.locator("div.ms-product--info-wrapper").all() #AF : tester
+            while True:
+                
+                print(f"\n📄 Page {page_num}")
+                            
+                self.page.wait_for_selector("div.ms-product--info-wrapper", timeout=10000) #AF : tester
 
-            for product in products:
-                self.data.append(self.extract_product(product))
-            
-            if not self.next_page():
-                print("✅ Dernière page atteinte, fin du scraping.")
-                break
+                products = self.page.locator("div.ms-product--info-wrapper").all() #AF : tester
 
-            page_num += 1
-            time.sleep(1)
+                for product in products:
+                    self.data.append(self.extract_product(product))
+                
+                if not self.next_page():
+                    print("✅ Dernière page atteinte, fin du scraping.")
+                    break
+
+                page_num += 1
+                time.sleep(1)
 
     def extract_product(self, product):
         data = {
@@ -71,7 +73,7 @@ class PomonaEpisaveursScraper(BaseScraper):
         """Aller à la page suivante avec le bouton '>'."""
         try:
             # Attendre un court instant pour s'assurer que les éléments sont chargés
-            self.page.wait_for_timeout(500)
+            self.page.wait_for_timeout(10000)
 
             # Sélectionne le bouton 'next' (icône flèche droite)
             next_btn = self.page.locator("i.fa-chevron-right").first #AF : tester
