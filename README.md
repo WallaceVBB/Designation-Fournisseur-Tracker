@@ -72,9 +72,9 @@ cd Designation-Fournisseur-Tracker
 ```bash
 pip install -r requirements.txt
 
-3️⃣ Installer Playwright
+### 3️⃣ Installer Playwright
 playwright install
-
+```
 ---
 ## Contribution
 Ce projet est ouvert à contributions. N’hésitez pas à proposer des idées, rapports de bugs, ou améliorations via les issues ou pull requests.
