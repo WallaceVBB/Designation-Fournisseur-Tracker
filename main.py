@@ -1,8 +1,8 @@
 from playwright.sync_api import sync_playwright
 from scrapers.sysco import SyscoScraper
 from scrapers.pomona_episaveurs import PomonaEpisaveursScraper
-#from scrapers.pomona_terreazur import PomonaTerreAzurScraper
-#from scrapers.pomona_passionfroid import PomonaPassionFroidScraper
+from scrapers.pomona_terreazur import PomonaTerreAzurScraper
+from scrapers.pomona_passionfroid import PomonaPassionFroidScraper
 
 def main():
     with sync_playwright() as p:
@@ -11,7 +11,7 @@ def main():
             args=["--disable-blink-features=AutomationControlled","--no-sandbox", "--disable-dev-shm-usage"]
         )
 
-        #Teste para Pomona
+        # Créer un nouveau contexte de navigateur avec des paramètres personnalisés
         context = browser.new_context(
             user_agent=(
                 "Mozilla/5.0 (X11; Linux x86_64) "
@@ -26,24 +26,24 @@ def main():
         page = context.new_page()
 
         # Changez variable "Fournisseur" pour tester différents scrapers
-        Fournisseur = "Pomona Episaveurs" 
+        Fournisseur = "Pomona TerreAzur" 
         
         if Fournisseur == "Sysco": # OK
             scraper = SyscoScraper(page)
             scraper.run()
             scraper.save_to_csv("donnees_fournisseurs/donnees_sysco.csv")
 
-        if Fournisseur == "Pomona Episaveurs":
+        if Fournisseur == "Pomona Episaveurs": # OK
             scraper = PomonaEpisaveursScraper(page)
             scraper.run()
             scraper.save_to_csv("donnees_fournisseurs/donnees_pomona_episaveurs.csv")
 
-        if Fournisseur == "Pomona TerreAzur":
+        if Fournisseur == "Pomona TerreAzur": # AF
             scraper = PomonaTerreAzurScraper(page)
             scraper.run()
             scraper.save_to_csv("donnees_fournisseurs/donnees_pomona_terreazur.csv")
 
-        if Fournisseur == "Pomona PassionFroid":
+        if Fournisseur == "Pomona PassionFroid": # AF
             scraper = PomonaPassionFroidScraper(page)
             scraper.run()
             scraper.save_to_csv("donnees_fournisseurs/donnees_pomona_passionfroid.csv")
